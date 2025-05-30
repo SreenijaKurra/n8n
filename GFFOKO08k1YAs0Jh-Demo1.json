@@ -1,0 +1,166 @@
+{
+  "name": "Demo1",
+  "nodes": [
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "={{ $json.chatInput }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        220,
+        0
+      ],
+      "id": "ffe64558-a28a-4981-86d8-989a3c9f8afb",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "rHogeCrze69tuvJq",
+          "name": "Demo1 cred"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d88bf69e-95e9-483d-ad63-987aba8abbcd",
+              "name": "message.content",
+              "value": "={{ $json.message.content }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        580,
+        0
+      ],
+      "id": "0be9ec6c-b983-411f-bb4b-f738253186f6",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -60,
+        0
+      ],
+      "id": "5c4502db-7f80-48ce-97e3-70b9e8b93394",
+      "name": "When chat message received",
+      "webhookId": "bb34ed84-752b-4edb-b06a-95de5f54050a"
+    },
+    {
+      "parameters": {
+        "formTitle": "Demo",
+        "formDescription": "Binary data",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "File",
+              "fieldType": "file",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "address",
+              "fieldType": "number",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -60,
+        -180
+      ],
+      "id": "3c13ba32-aa63-43bd-b653-6b0081fe262a",
+      "name": "On form submission",
+      "webhookId": "ecea5a9e-d00a-4b64-b90c-7520a88f53bf"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        -180
+      ],
+      "id": "3815a1a0-3543-4a19-9fe6-f45e0dd6a90d",
+      "name": "Edit Fields1"
+    }
+  ],
+  "connections": {
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": null,
+  "pinData": {},
+  "triggerCount": 1,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  }
+}
